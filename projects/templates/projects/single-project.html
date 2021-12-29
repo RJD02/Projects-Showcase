@@ -1,0 +1,11 @@
+{% extends 'main.html' %} {% block content %} {% if project == None %}
+<h3>Page not found</h3>
+{% else %}
+<h1>{{project.title}}</h1>
+<hr />
+{% for tag in project.tags.all %}
+<span style="border: 1px solid grey">{{tag}}</span>
+{% endfor %}
+<hr />
+<p>{{project.description}}</p>
+{% endif %} {% endblock content %}
