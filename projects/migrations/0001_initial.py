@@ -17,10 +17,13 @@ class Migration(migrations.Migration):
             fields=[
                 ('title', models.CharField(max_length=200)),
                 ('description', models.TextField(blank=True, null=True)),
-                ('demo_link', models.CharField(blank=True, max_length=2000, null=True)),
-                ('souce_link', models.CharField(blank=True, max_length=2000, null=True)),
+                ('demo_link', models.CharField(
+                    blank=True, max_length=2000, null=True)),
+                ('souce_link', models.CharField(
+                    blank=True, max_length=2000, null=True)),
                 ('created', models.DateTimeField(auto_now_add=True)),
-                ('id', models.UUIDField(default=uuid.uuid4, editable=False, primary_key=True, serialize=False, unique=True)),
+                ('id', models.UUIDField(default=uuid.uuid4, editable=False,
+                 primary_key=True, serialize=False, unique=True)),
             ],
         ),
     ]
