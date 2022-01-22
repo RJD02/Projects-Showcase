@@ -1,6 +1,6 @@
 {% extends 'main.html' %} {%block content%}
 <h1>Project Form</h1>
-<form action="" method="post">
+<form action="" method="post" enctype="multipart/form-data">
   {% csrf_token %} {{form.as_p}}
   <input type="submit" />
 </form>
