@@ -5,6 +5,8 @@
 __pycache__
 db.sqlite3
 media
+static/
+staticfiles/
 # Environments
 .env
 .venv
