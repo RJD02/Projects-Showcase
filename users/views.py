@@ -9,5 +9,5 @@ def profiles(request):
     return render(request, 'users/profiles.html', context)
 
 
-def userProfile(request):
+def userProfile(request, pk):
     return render(request, 'users/user-profile.html', )
