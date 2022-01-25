@@ -1,7 +1,8 @@
 import uuid
 from django.db import models
 from django.contrib.auth.models import User
-# Create your models here.
+
+from django.db.models.signals import post_save, post_delete
 
 
 class Profile(models.Model):
@@ -27,7 +28,7 @@ class Profile(models.Model):
                           primary_key=True, editable=False)
 
     def __str__(self) -> str:
-        return (self.user.username)
+        return (self.username)
 
 
 class Skill(models.Model):
@@ -41,3 +42,20 @@ class Skill(models.Model):
 
     def __str__(self) -> str:
         return (self.name)
+
+
+def profile_updated(sender, instance, created, **kwargs):
+    print('Profile saved')
+    print(sender)
+    print(created)
+    print(instance)
+
+
+def profile_deleted(sender, instance, **kwargs):
+    print('Profile deleted')
+    print(sender)
+    print(instance)
+
+
+post_save.connect(profile_updated, sender=Profile)
+post_delete.connect(profile_deleted, sender=Profile)
