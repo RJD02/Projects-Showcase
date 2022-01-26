@@ -1,4 +1,4 @@
-
+from .forms import CustomUserCreationForm
 from django.contrib import messages
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate, logout
@@ -32,6 +32,9 @@ def userProfile(request, pk):
 
 
 def login_user(request):
+    page = 'login'
+    context = {'page': page}
+
     if request.user.is_authenticated:
         return redirect('profiles')
 
@@ -51,12 +54,34 @@ def login_user(request):
             return redirect('profiles')
         else:
             # User does not exist
-            messages.error('User name or password is wrong')
+            messages.error(request, 'User name or password is wrong')
 
-    return render(request, 'users/login_register.html')
+    return render(request, 'users/login_register.html', context)
 
 
 def logout_user(request):
     logout(request)
     messages.success(request, 'User was logged out')
     return redirect('login')
+
+
+def register_user(request):
+    page = 'register'
+    context = {'page': page}
+    form = CustomUserCreationForm()
+    if request.method == "POST":
+        form = CustomUserCreationForm(request.POST)
+        if form.is_valid():
+            user = form.save(commit=False)
+            user.username = user.username.lower()
+            user.save()
+
+            messages.success(request, 'Account was succesfully created!')
+
+            login(request, user)
+            return redirect('profiles')
+        else:
+            messages.error(request, 'Error occurred during form registration')
+
+    context['form'] = form
+    return render(request, 'users/login_register.html', context)
