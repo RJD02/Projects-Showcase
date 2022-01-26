@@ -1,3 +1,5 @@
+
+from django.contrib import messages
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate, logout
 from .models import Profile
@@ -30,7 +32,7 @@ def userProfile(request, pk):
 
 
 def login_user(request):
-    if request.user.is_authenticated():
+    if request.user.is_authenticated:
         return redirect('profiles')
 
     if request.method == 'POST':
@@ -41,7 +43,7 @@ def login_user(request):
         try:
             user = User.objects.get(username=username)
         except:
-            print('Username does not exist')
+            messages.error(request, 'Username does not exist')
         user = authenticate(request, username=username, password=password)
 
         if user is not None:
@@ -49,11 +51,12 @@ def login_user(request):
             return redirect('profiles')
         else:
             # User does not exist
-            print('User name or password is wrong')
+            messages.error('User name or password is wrong')
 
     return render(request, 'users/login_register.html')
 
 
 def logout_user(request):
     logout(request)
+    messages.success(request, 'User was logged out')
     return redirect('login')
