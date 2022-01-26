@@ -1,5 +1,8 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from django.contrib.auth import login, authenticate, logout
 from .models import Profile
+from users.models import User
+
 # Create your views here.
 
 
@@ -24,3 +27,33 @@ def userProfile(request, pk):
                'other_skills': other_skills}
 
     return render(request, 'users/user-profile.html', context)
+
+
+def login_user(request):
+    if request.user.is_authenticated():
+        return redirect('profiles')
+
+    if request.method == 'POST':
+        print(request.POST)
+        username = request.POST['username']
+        password = request.POST['password']
+
+        try:
+            user = User.objects.get(username=username)
+        except:
+            print('Username does not exist')
+        user = authenticate(request, username=username, password=password)
+
+        if user is not None:
+            login(request, user)
+            return redirect('profiles')
+        else:
+            # User does not exist
+            print('User name or password is wrong')
+
+    return render(request, 'users/login_register.html')
+
+
+def logout_user(request):
+    logout(request)
+    return redirect('login')
