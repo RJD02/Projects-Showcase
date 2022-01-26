@@ -22,6 +22,12 @@
   </head>
   <body>
     <!-- <h1>This is the main template</h1> -->
-    {% include 'nav.html' %} {% block content %} {% endblock content %}
+    {% include 'nav.html' %} {% if messages %}
+    <ul class="messages">
+      {% for message in messages %}
+      <li>{{message}}</li>
+      {% endfor %}
+    </ul>
+    {% endif %} {% block content %} {% endblock content %}
   </body>
 </html>
