@@ -1,5 +1,5 @@
-{% extends 'main.html' %} {% load static %} {% block content %} {% if page ==
-'register' %}
+{% extends 'main.html' %} {% block content %} {% load static %} {% if (page ==
+'register') %}
 <h1>Register User</h1>
 <form action="{% url 'register' %}" method="post">
   {% csrf_token %} {{ form.as_p }}
