@@ -30,8 +30,8 @@
   <section class="devlist">
     <div class="container">
       <div class="grid grid--three">
+        {% for profile in profiles %}
         <div class="column card">
-          {% for profile in profiles %}
           <div class="dev">
             <a href="{% url 'user-profile' profile.id %}" class="card__body">
               <div class="dev__profile">
@@ -55,8 +55,8 @@
               </div>
             </a>
           </div>
-          {% endfor %}
         </div>
+        {% endfor %}
       </div>
     </div>
   </section>
