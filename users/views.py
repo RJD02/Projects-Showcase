@@ -31,6 +31,32 @@ def userProfile(request, pk):
     return render(request, 'users/user-profile.html', context)
 
 
+@login_required(login_url='login')
+def user_account(request):
+    context = {}
+    profile = request.user.profile
+    context['profile'] = profile
+    # print(profile.skill_set.all())
+    context['skills'] = profile.skill_set.all()
+    context['projects'] = profile.project_set.all()
+    return render(request, 'users/account.html', context)
+
+
+@login_required(login_url='login')
+def edit_account(request):
+    profile = request.user.profile
+    context = {}
+    form = ProfileForm(instance=profile)
+    if request.method == "POST":
+        form = ProfileForm(request.POST, request.FILES, instance=profile)
+        if form.is_valid():
+            form.save()
+
+            return redirect('account')
+    context['form'] = form
+    return render(request, 'users/profile_form.html', context)
+
+
 def login_user(request):
     page = 'login'
     context = {'page': page}
