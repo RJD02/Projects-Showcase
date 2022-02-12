@@ -1,12 +1,13 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
-from projects.utils import search_projects
+from django.contrib.auth.decorators import login_required
+from django.db.models import Q
+from django.core.paginator import Paginator
 
+from projects.utils import search_projects
 from users.models import Skill
 from .models import Project, Tag
 from .forms import ProjectForm
-from django.contrib.auth.decorators import login_required
-from django.db.models import Q
 
 
 @login_required(login_url='login')
@@ -56,6 +57,18 @@ def delete_project(request, pk):
 
 def projects(request):
     projects, search_query = search_projects(request)
+
+    results = 3
+    paginator = Paginator(projects, results)
+
+    page = 1
+    if request.GET.get('page'):
+        page = request.GET.get('page')
+        if int(page) > paginator.num_pages:
+            page = paginator.num_pages
+
+    projects = paginator.page(page)
+
     context = {'projects': projects, 'search_query': search_query}
     return render(request, 'projects/projects.html', context)
 
