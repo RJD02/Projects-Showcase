@@ -2,9 +2,9 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
-from django.core.paginator import Paginator
 
-from projects.utils import search_projects
+
+from projects.utils import paginate_projects, search_projects
 from users.models import Skill
 from .models import Project, Tag
 from .forms import ProjectForm
@@ -15,7 +15,6 @@ def create_project(request):
     profile = request.user.profile
     form = ProjectForm()
 
-    print(request.POST)
     if request.method == 'POST':
         form = ProjectForm(request.POST, request.FILES)
         if form.is_valid():
@@ -58,18 +57,12 @@ def delete_project(request, pk):
 def projects(request):
     projects, search_query = search_projects(request)
 
-    results = 3
-    paginator = Paginator(projects, results)
+    results = 6
+    custom_range, projects = paginate_projects(
+        request, projects, results)
 
-    page = 1
-    if request.GET.get('page'):
-        page = request.GET.get('page')
-        if int(page) > paginator.num_pages:
-            page = paginator.num_pages
-
-    projects = paginator.page(page)
-
-    context = {'projects': projects, 'search_query': search_query}
+    context = {'projects': projects,
+               'search_query': search_query, 'custom_range': custom_range}
     return render(request, 'projects/projects.html', context)
 
 
