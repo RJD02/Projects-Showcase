@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
-from users.utils import search_profiles
+from users.utils import paginate_profiles, search_profiles
 from .forms import CustomUserCreationForm, ProfileForm, SkillForm
 from .models import Profile, Skill
 from users.models import User
@@ -11,7 +11,10 @@ from users.models import User
 
 def profiles(request):
     profiles, search_query = search_profiles(request)
-    context = {'profiles': profiles, 'search_query': search_query}
+    results = 6
+    custom_range, profiles = paginate_profiles(request, profiles, results)
+    context = {'profiles': profiles, 'search_query': search_query,
+               'custom_range': custom_range}
     return render(request, 'users/profiles.html', context)
 
 
