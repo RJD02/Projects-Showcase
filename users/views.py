@@ -4,7 +4,7 @@ from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from users.utils import paginate_profiles, search_profiles
-from .forms import CustomUserCreationForm, ProfileForm, SkillForm
+from .forms import CustomUserCreationForm, MessageForm, ProfileForm, SkillForm
 from .models import Message, Profile, Skill
 from users.models import User
 
@@ -184,3 +184,21 @@ def view_message(request, pk):
     if not current_message.is_read:
         current_message.read_message
     return render(request, 'users/message.html', context)
+
+
+def send_message(request, pk):
+    context = {}
+    profile = request.user.profile
+    if request.POST:
+        form = MessageForm(request.POST)
+        if form.is_valid():
+            current_message = form.save(commit=False)
+            current_message.recipient = Profile.objects.get(id=pk)
+            current_message.sender = profile
+            current_message.save()
+            messages.success(request, 'Message successfully sent')
+            return redirect(request.GET['next'] if next in request.GET else 'account')
+
+    form = MessageForm()
+    context['form'] = form
+    return render(request, 'message_form.html', context)

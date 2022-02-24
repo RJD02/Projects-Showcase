@@ -58,7 +58,11 @@
               </li>
               {% endif %}
             </ul>
-            <a href="#" class="btn btn--sub btn--lg">Send Message </a>
+            <a
+              href="{% url 'send-message' profile.id %}?next={{request.path}}"
+              class="btn btn--sub btn--lg"
+              >Send Message
+            </a>
           </div>
         </div>
       </div>
