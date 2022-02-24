@@ -188,17 +188,25 @@ def view_message(request, pk):
 
 def send_message(request, pk):
     context = {}
-    profile = request.user.profile
+    try:
+        profile = request.user.profile
+    except:
+        profile = None
+    reciepient = Profile.objects.get(id=pk)
     if request.POST:
         form = MessageForm(request.POST)
         if form.is_valid():
             current_message = form.save(commit=False)
-            current_message.recipient = Profile.objects.get(id=pk)
+            current_message.recipient = reciepient
             current_message.sender = profile
+            if profile:
+                current_message.name = profile.name
+                current_message.email = profile.email
             current_message.save()
             messages.success(request, 'Message successfully sent')
-            return redirect(request.GET['next'] if next in request.GET else 'account')
+            return redirect('user-profile', pk=reciepient.id)
 
     form = MessageForm()
     context['form'] = form
-    return render(request, 'message_form.html', context)
+    context['recepient'] = reciepient
+    return render(request, 'users/message_form.html', context)
