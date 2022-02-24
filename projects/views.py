@@ -1,3 +1,4 @@
+from django.contrib import messages
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
@@ -6,8 +7,8 @@ from django.db.models import Q
 
 from projects.utils import paginate_projects, search_projects
 from users.models import Skill
-from .models import Project, Tag
-from .forms import ProjectForm
+from .models import Project, Review, Tag
+from .forms import ProjectForm, ReviewForm
 
 
 @login_required(login_url='login')
@@ -67,11 +68,18 @@ def projects(request):
 
 
 def project(req, id):
-    projects = {}
-    tags = {}
-    try:
-        projects = Project.objects.get(id=id)
+    projects = Project.objects.get(id=id)
+    form = ReviewForm()
+    if req.method == 'POST':
+        form = ReviewForm(req.POST)
+        review = form.save(commit=False)
+        review.project = projects
+        review.owner = req.user.profile
+        review.save()
 
-    except:
-        projects = {}
-    return render(req, 'projects/single-project.html', {'project': projects})
+        projects.getVoteCount
+
+        messages.success(req, 'Your review was successfully submitted')
+        return redirect('single project', id=projects.id)
+
+    return render(req, 'projects/single-project.html', {'project': projects, 'form': form})
