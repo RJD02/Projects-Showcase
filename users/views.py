@@ -5,7 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from users.utils import paginate_profiles, search_profiles
 from .forms import CustomUserCreationForm, ProfileForm, SkillForm
-from .models import Profile, Skill
+from .models import Message, Profile, Skill
 from users.models import User
 
 
@@ -70,7 +70,7 @@ def login_user(request):
 
     if request.method == 'POST':
         print(request.POST)
-        username = request.POST['username'].lower()
+        username = request.POST['username']
         password = request.POST['password']
 
         try:
@@ -160,3 +160,27 @@ def delete_skill(request, pk):
         return redirect('account')
     context = {'object': skill, 'name': skill}
     return render(request, 'delete_template.html', context)
+
+
+@login_required(login_url='login')
+def inbox(request):
+    profile = request.user.profile
+    messageRequest = profile.messages.all()
+    unread_messages = 0
+    if len(messageRequest) > 0:
+        unread_messages = messageRequest.filter(
+            is_read=False).count()
+    context = {'messageRequest': messageRequest,
+               'unreadCount': unread_messages}
+    return render(request, 'users/inbox.html', context)
+
+
+@login_required(login_url='login')
+def view_message(request, pk):
+    context = {}
+    profile = request.user.profile
+    current_message = profile.messages.get(id=pk)
+    context['message'] = current_message
+    if not current_message.is_read:
+        current_message.read_message
+    return render(request, 'users/message.html', context)
