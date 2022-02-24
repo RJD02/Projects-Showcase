@@ -1,3 +1,4 @@
+import datetime
 import uuid
 from django.db import models
 from django.contrib.auth.models import User
@@ -55,6 +56,7 @@ class Message(models.Model):
     subject = models.CharField(max_length=200, null=True, blank=True)
     body = models.TextField()
     created = models.DateTimeField(auto_now_add=True)
+    date_read = models.DateTimeField(null=True, blank=True)
     id = models.UUIDField(default=uuid.uuid4, unique=True,
                           primary_key=True, editable=False)
 
@@ -67,4 +69,5 @@ class Message(models.Model):
     @property
     def read_message(self):
         self.is_read = True
+        self.date_read = datetime.date.today()
         self.save()
