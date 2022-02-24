@@ -8,6 +8,7 @@
         <h2 class="message__subject">{{message.subject}}</h4>
           <a href="profile.html" class="message__author">{{message.name}}</a>
           <p class="message__date">{{message.created}}</p>
+          <p class="message__date">Read on: {{message.date_read}}</p>
           <div class="message__body">
             {{message.body|linebreaksbr}}
           </div>
