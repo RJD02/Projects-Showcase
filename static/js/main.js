@@ -17,3 +17,28 @@ if (searchForm) {
     });
   }
 }
+// Remove tags from a project
+const tags = document.getElementsByClassName("project-tag");
+for (let i = 0; i < tags.length; i++) {
+  tags[i].addEventListener("click", async (e) => {
+    e.preventDefault();
+    const tagId = e.target.dataset.tag;
+    const projectId = e.target.dataset.project;
+
+    const response = await axios.delete(
+      "http://localhost:8000/api/remove-tag/",
+      {
+        Headers: {
+          "Content-Type": "application/json",
+        },
+        data: {
+          tag: tagId,
+          project: projectId,
+        },
+      }
+    );
+    if (response.data) {
+      e.target.remove();
+    }
+  });
+}
