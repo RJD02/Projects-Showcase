@@ -1,6 +1,6 @@
 from users.models import Profile, Skill
 from django.db.models import Q
-from django.core.paginator import Paginator
+from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 
 
 def paginate_profiles(request, profiles, results):
@@ -10,8 +10,16 @@ def paginate_profiles(request, profiles, results):
         page = request.GET.get('page')
         if int(page) > paginator.num_pages:
             page = paginator.num_pages
-
-    profiles = paginator.page(page)
+    try:
+        profiles = paginator.page(page)
+    except PageNotAnInteger:
+        page = 1
+        profiles = paginator.page(page)
+    except EmptyPage:
+        page = paginator.num_pages
+        profiles = paginator.page(page)
+    except:
+        print('General except for paginator')
     page = int(page)
 
     left_index = (page - 4)
@@ -22,9 +30,11 @@ def paginate_profiles(request, profiles, results):
     right_index = (page + 5)
     if page == 1:
         right_index = page + 6
-
-    if right_index > paginator.num_pages:
-        right_index = paginator.num_pages
+    try:
+        if right_index > paginator.num_pages:
+            right_index = paginator.num_pages
+    except:
+        print('Right index paginator error')
 
     custom_range = range(left_index, right_index + 1)
     return custom_range, profiles
