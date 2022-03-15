@@ -30,13 +30,13 @@
     <div class="container">
       <div class="grid grid--three">
         <!-- Keeping this column -->
-        {% for project in projects %}
+        {% for project in projects %} {% if project.imageUrl %}
         <div class="column">
           <div class="card project">
             <a href="{% url 'single project' project.id %}" class="project">
               <img
                 class="project__thumbnail"
-                src="{{project.featured_image.url}}"
+                src="{{project.imageUrl}}"
                 alt="project thumbnail"
               />
               <div class="card__body">
@@ -64,7 +64,7 @@
             </a>
           </div>
         </div>
-        {% endfor %}
+        {% endif %} {% endfor %}
       </div>
     </div>
   </section>
