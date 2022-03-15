@@ -6,7 +6,10 @@
       <div class="column column--1of3">
         <div class="card text-center">
           <div class="card__body dev">
-            <img class="avatar avatar--xl" src="{{profile.profile_image}}" />
+            <img
+              class="avatar avatar--xl"
+              src="{{profile.imageUrl }}"
+            />
             <h2 class="dev__name">{{profile.name}}</h2>
             <p class="dev__title">{{profile.about}}</p>
             <p class="dev__location">Based in {{profile.location}}</p>
@@ -102,7 +105,7 @@
                 <a href="{% url 'single project' project.id %}" class="project">
                   <img
                     class="project__thumbnail"
-                    src="{{project.featured_image.url}}"
+                    src="{{project.imageUrl}}"
                     alt="project thumbnail"
                   />
                   <div class="card__body">

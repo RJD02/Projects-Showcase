@@ -14,7 +14,7 @@
             >
             <img
               class="avatar avatar--xl dev__avatar"
-              src="{{profile.profile_image.url}}"
+              src="{{profile.imageUrl}}"
             />
             <h2 class="dev__name">{{profile.name}}</h2>
             <p class="dev__title">{{profile.about}}</p>
@@ -123,9 +123,7 @@
           <tr>
             <td class="settings__thumbnail">
               <a href="{% url 'single project' project.id %}"
-                ><img
-                  src="{{project.featured_image.url}}"
-                  alt="Project Thumbnail"
+                ><img src="{{project.imageUrl}}" alt="Project Thumbnail"
               /></a>
             </td>
             <td class="settings__tableInfo">
@@ -137,7 +135,7 @@
             <td class="settings__tableActions">
               <a
                 class="tag tag--pill tag--main settings__btn"
-                href="{% url 'update-project' project.id %}"
+                href="{% url 'update-project' project.id %}?next=/account"
                 ><i class="im im-edit"></i> Edit</a
               >
               <a
