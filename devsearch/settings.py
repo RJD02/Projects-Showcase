@@ -139,10 +139,20 @@ WSGI_APPLICATION = 'devsearch.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'djongo',
+        'NAME': 'DevSearch',
+        'CLIENT': {
+            'host': 'mongodb+srv://' + env('MONGODB_HOST_USERNAME') + ':' + env('MONGODB_HOST_PASSWORD') + '@cluster0.lkxsz.mongodb.net/DevSearch?retryWrites=true&w=majority',
+
+        }
     }
 }
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
 
 
 # Password validation
