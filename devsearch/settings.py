@@ -14,6 +14,7 @@ from pathlib import Path
 import os
 from datetime import timedelta
 import environ
+import django_heroku
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -224,3 +225,5 @@ CLOUDINARY_STORAGE = {
 
 if os.getcwd() == '/app':
     DEBUG = False
+
+django_heroku.settings(locals())
