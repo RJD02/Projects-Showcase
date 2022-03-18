@@ -5,7 +5,7 @@ from django.db.models import Q
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 
 
-def paginateProjects(request, projects, results):
+def paginate_projects(request, projects, results):
 
     page = request.GET.get('page')
     paginator = Paginator(projects, results)

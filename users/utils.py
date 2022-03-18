@@ -3,7 +3,7 @@ from django.db.models import Q
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 
 
-def paginateProfiles(request, profiles, results):
+def paginate_profiles(request, profiles, results):
     page = request.GET.get('page')
     paginator = Paginator(profiles, results)
 
