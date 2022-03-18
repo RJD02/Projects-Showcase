@@ -42,6 +42,7 @@ def paginate_projects(request, projects, results):
         if right_index > paginator.num_pages:
             right_index = paginator.num_pages
     except:
+        right_index = 1
         print('Right index paginator error')
 
     custom_range = range(left_index, right_index + 1)
