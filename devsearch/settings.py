@@ -29,7 +29,9 @@ SECRET_KEY = 'django-insecure-^tsdn(&uuaas)au!uh@sk$3x-=(fztrcr0y=s$b6g2wsz^zs8f
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    'agile-reef-89650.herokuapp.com/'
+]
 
 
 # Application definition
@@ -219,3 +221,6 @@ CLOUDINARY_STORAGE = {
     'API_SECRET': env('CLOUDINARY_API_SECRET'),
     'SECURE': True,
 }
+
+if os.getcwd() == '/app':
+    DEBUG = False
