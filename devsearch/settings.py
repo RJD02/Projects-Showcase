@@ -42,6 +42,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    'cloudinary_storage',
+    'cloudinary',
+
     'projects.apps.ProjectsConfig',
     'users.apps.UsersConfig',
 
@@ -137,22 +140,21 @@ WSGI_APPLICATION = 'devsearch.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'djongo',
-        'NAME': 'DevSearch',
-        'CLIENT': {
-            'host': 'mongodb+srv://' + env('MONGODB_HOST_USERNAME') + ':' + env('MONGODB_HOST_PASSWORD') + '@cluster0.lkxsz.mongodb.net/DevSearch?retryWrites=true&w=majority',
-
-        }
-    }
-}
 # DATABASES = {
 #     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
+#         'ENGINE': 'djongo',
+#         'NAME': 'DevSearch',
+#         'CLIENT': {
+#             'host': 'mongodb+srv://' + env('MONGODB_HOST_USERNAME') + ':' + env('MONGODB_HOST_PASSWORD') + '@cluster0.lkxsz.mongodb.net/DevSearch?retryWrites=true&w=majority',
+#         }
 #     }
 # }
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
+}
 
 
 # Password validation
@@ -196,7 +198,7 @@ EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
 STATIC_URL = 'static/'
-MEDIA_URL = '/images/'
+MEDIA_URL = '/DevSearch/'
 
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static')
@@ -208,3 +210,12 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': env('CLOUDINARY_CLOUD_NAME'),
+    'API_KEY': env('CLOUDINARY_API_KEY'),
+    'API_SECRET': env('CLOUDINARY_API_SECRET'),
+    'SECURE': True,
+}
