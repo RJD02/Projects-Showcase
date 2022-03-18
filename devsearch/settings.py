@@ -55,7 +55,7 @@ INSTALLED_APPS = [
 
     'corsheaders',
 
-    'django-heroku'
+    # 'django-heroku'g
 ]
 
 REST_FRAMEWORK = {
