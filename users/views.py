@@ -168,8 +168,11 @@ def inbox(request):
     messageRequest = profile.messages.all()
     unread_messages = 0
     if len(messageRequest) > 0:
-        unread_messages = messageRequest.filter(
-            is_read=False).count()
+        # Tried to use higher level function 'filter', but it gave error while converting SQL query to NoSQL query
+        for message in messageRequest:
+            if not message.is_read:
+                unread_messages += 1
+
     context = {'messageRequest': messageRequest,
                'unreadCount': unread_messages}
     return render(request, 'users/inbox.html', context)
