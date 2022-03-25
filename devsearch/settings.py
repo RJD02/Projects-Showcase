@@ -31,7 +31,8 @@ SECRET_KEY = 'django-insecure-^tsdn(&uuaas)au!uh@sk$3x-=(fztrcr0y=s$b6g2wsz^zs8f
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    'agile-reef-89650.herokuapp.com/'
+    '.herokuapp.com',
+    'localhost'
 ]
 
 
@@ -145,21 +146,21 @@ WSGI_APPLICATION = 'devsearch.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'djongo',
-        'NAME': 'DevSearch',
-        'CLIENT': {
-            'host': 'mongodb+srv://' + env('MONGODB_HOST_USERNAME') + ':' + env('MONGODB_HOST_PASSWORD') + '@cluster0.lkxsz.mongodb.net/DevSearch?retryWrites=true&w=majority',
-        }
-    }
-}
 # DATABASES = {
 #     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
+#         'ENGINE': 'djongo',
+#         'NAME': 'DevSearch',
+#         'CLIENT': {
+#             'host': 'mongodb+srv://' + env('MONGODB_HOST_USERNAME') + ':' + env('MONGODB_HOST_PASSWORD') + '@cluster0.lkxsz.mongodb.net/DevSearch?retryWrites=true&w=majority',
+#         }
 #     }
 # }
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
+}
 
 
 # Password validation
@@ -225,7 +226,7 @@ CLOUDINARY_STORAGE = {
     'SECURE': True,
 }
 
-if os.getcwd() == '/app':
-    DEBUG = False
+# if os.getcwd() == '/app':
+#     DEBUG = False
 
-django_heroku.settings(locals())
+# django_heroku.settings(locals())
