@@ -226,7 +226,7 @@ CLOUDINARY_STORAGE = {
     'SECURE': True,
 }
 
-# if os.getcwd() == '/app':
-#     DEBUG = False
+if os.getcwd() == '/app':
+    DEBUG = False
 
 # django_heroku.settings(locals())
