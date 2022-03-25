@@ -6,10 +6,17 @@ from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 
 
 def paginate_projects(request, projects, results):
-
-    page = request.GET.get('page')
     paginator = Paginator(projects, results)
-
+    page = 1
+    print('Paginator objects list', paginator.object_list,
+          len(paginator.object_list))
+    if request.GET.get('page'):
+        page = request.GET.get('page')
+        try:
+            if int(page) > paginator.num_pages:
+                page = paginator.num_pages
+        except:
+            print('Something is wrong with paginator')
     try:
         projects = paginator.page(page)
     except PageNotAnInteger:
@@ -18,19 +25,26 @@ def paginate_projects(request, projects, results):
     except EmptyPage:
         page = paginator.num_pages
         projects = paginator.page(page)
+    except:
+        print('General except for paginator')
 
-    leftIndex = (int(page) - 4)
+    page = int(page)
 
-    if leftIndex < 1:
-        leftIndex = 1
+    left_index = (page - 4)
 
-    rightIndex = (int(page) + 5)
+    if left_index < 1:
+        left_index = 1
 
-    if rightIndex > paginator.num_pages:
-        rightIndex = paginator.num_pages + 1
+    right_index = (page + 5)
+    if page == 1:
+        right_index = page + 6
+    try:
+        if right_index > paginator.num_pages:
+            right_index = paginator.num_pages
+    except:
+        print('Right index paginator error')
 
-    custom_range = range(leftIndex, rightIndex)
-
+    custom_range = range(left_index, right_index + 1)
     return custom_range, projects
 
 

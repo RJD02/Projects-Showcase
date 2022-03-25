@@ -4,9 +4,12 @@ from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 
 
 def paginate_profiles(request, profiles, results):
-    page = request.GET.get('page')
     paginator = Paginator(profiles, results)
-
+    page = 1
+    if request.GET.get('page'):
+        page = request.GET.get('page')
+        if int(page) > paginator.num_pages:
+            page = paginator.num_pages
     try:
         profiles = paginator.page(page)
     except PageNotAnInteger:
@@ -15,19 +18,25 @@ def paginate_profiles(request, profiles, results):
     except EmptyPage:
         page = paginator.num_pages
         profiles = paginator.page(page)
+    except:
+        print('General except for paginator')
+    page = int(page)
 
-    leftIndex = (int(page) - 4)
+    left_index = (page - 4)
 
-    if leftIndex < 1:
-        leftIndex = 1
+    if left_index < 1:
+        left_index = 1
 
-    rightIndex = (int(page) + 5)
+    right_index = (page + 5)
+    if page == 1:
+        right_index = page + 6
+    try:
+        if right_index > paginator.num_pages:
+            right_index = paginator.num_pages
+    except:
+        print('Right index paginator error')
 
-    if rightIndex > paginator.num_pages:
-        rightIndex = paginator.num_pages + 1
-
-    custom_range = range(leftIndex, rightIndex)
-
+    custom_range = range(left_index, right_index + 1)
     return custom_range, profiles
 
 
