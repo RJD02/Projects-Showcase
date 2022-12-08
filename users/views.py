@@ -2,6 +2,7 @@ from django.contrib import messages
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.decorators import login_required
+from django.views.decorators.csrf import csrf_exempt
 from django.db.models import Q
 from users.utils import paginate_profiles, search_profiles
 from .forms import CustomUserCreationForm, MessageForm, ProfileForm, SkillForm
@@ -18,6 +19,7 @@ def profiles(request):
     return render(request, 'users/profiles.html', context)
 
 
+@csrf_exempt
 def userProfile(request, pk):
     profile = Profile.objects.get(id=pk)
 

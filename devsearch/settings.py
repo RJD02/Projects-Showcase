@@ -119,6 +119,10 @@ CORS_ALLOWED_ORIGINS = [
     'http://localhost:1234',
 ]
 
+CSRF_TRUSTED_ORIGINS = [
+    'https://web-production-6edb.up.railway.app'
+]
+
 ROOT_URLCONF = 'devsearch.urls'
 
 TEMPLATES = [
