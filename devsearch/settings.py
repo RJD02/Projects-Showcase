@@ -32,7 +32,9 @@ DEBUG = True
 
 ALLOWED_HOSTS = [
     '.herokuapp.com',
-    'localhost'
+    'localhost',
+    '.vercel.app',
+    '.up.railway.app'
 ]
 
 

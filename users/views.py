@@ -70,7 +70,7 @@ def login_user(request):
 
     if request.method == 'POST':
         print(request.POST)
-        username = request.POST['username']
+        username = request.POST['username'].lower()
         password = request.POST['password']
 
         try:
@@ -213,3 +213,7 @@ def send_message(request, pk):
     context['form'] = form
     context['recepient'] = reciepient
     return render(request, 'users/message_form.html', context)
+
+# Google pay
+# Paytm
+#
